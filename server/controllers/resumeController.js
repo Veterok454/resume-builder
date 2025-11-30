@@ -102,6 +102,8 @@ export const updateResume = async (req, res) => {
         },
       });
 
+      fs.unlinkSync(image.path);
+
       resumeDataCopy.personal_info.image = response.url;
     }
 

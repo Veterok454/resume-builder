@@ -1,5 +1,5 @@
 import { Check, Palette } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const ColorPicker = ({ selectedColor, onChange }) => {
   const colors = [
@@ -16,8 +16,19 @@ const ColorPicker = ({ selectedColor, onChange }) => {
   ];
 
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isOpen && !event.target.closest('.color-picker-container')) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen]);
+
   return (
-    <div className='relative'>
+    <div className='relative color-picker-container'>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className='flex items-center gap-1 text-sm text-purple-600 bg-gradient-to-br from-purple-50 to-purple-100 ring-purple-300 hover:ring transition-all px-3 py-2 rounded-lg'

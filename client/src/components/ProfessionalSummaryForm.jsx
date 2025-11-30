@@ -1,5 +1,5 @@
 import { Sparkles } from 'lucide-react';
-import Reactб, { useState } from 'react';
+import React, { useState } from 'react';
 import { enhanceProfessionalSummary } from '../services/aiService';
 
 const ProfessionalSummaryForm = ({ data, onChange }) => {

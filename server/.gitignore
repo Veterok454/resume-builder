@@ -1,2 +1,12 @@
 # Environment variables
 .env
+
+# Uploaded files
+uploads/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencies
+node_modules/

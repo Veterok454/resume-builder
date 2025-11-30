@@ -29,6 +29,7 @@ import api from '../configs/api';
 import toast from 'react-hot-toast';
 
 const ResumeBuilder = () => {
+  const [isSaving, setIsSaving] = useState(false);
   const { resumeId } = useParams();
   const { token } = useSelector((state) => state.auth);
 
@@ -111,6 +112,9 @@ const ResumeBuilder = () => {
   };
 
   const saveResume = async () => {
+    if (isSaving) return;
+    setIsSaving(true);
+
     try {
       let updatedResumeData = structuredClone(resumeData);
 
@@ -124,13 +128,18 @@ const ResumeBuilder = () => {
       removeBackground && formData.append('removeBackground', 'yes');
       typeof resumeData.personal_info.image === 'object' &&
         formData.append('image', resumeData.personal_info.image);
+
       const { data } = await api.put('/api/resumes/update', formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
+
       setResumeData(data.resume);
       toast.success(data.message);
     } catch (error) {
       console.error('Error saving resume:', error);
+      toast.error('Failed to save resume');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -285,11 +294,12 @@ const ResumeBuilder = () => {
               </div>
               <button
                 onClick={() => {
-                  toast.promise(saveResume, { loading: 'Saving...' });
+                  saveResume();
                 }}
-                className='bg-gradient-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400 transition-all rounded-md px-6 py-2 mt-6 text-sm'
+                disabled={isSaving}
+                className='bg-gradient-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400 transition-all rounded-md px-6 py-2 mt-6 text-sm disabled:opacity-50 disabled:cursor-not-allowed'
               >
-                Save Changes
+                {isSaving ? 'Saving...' : 'Save Changes'}
               </button>
             </div>
           </div>

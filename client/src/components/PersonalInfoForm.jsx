@@ -96,7 +96,24 @@ const PersonalInfoForm = ({
             type='file'
             accept='image/jpeg, image/png'
             className='hidden'
-            onChange={(e) => handleChange('image', e.target.files[0])}
+            onChange={(e) => {
+              const file = e.target.files[0];
+              if (!file) return;
+
+              if (file.size > 5 * 1024 * 1024) {
+                alert('Image must be less than 5MB');
+                e.target.value = '';
+                return;
+              }
+
+              if (!['image/jpeg', 'image/png'].includes(file.type)) {
+                alert('Only JPEG and PNG images are allowed');
+                e.target.value = '';
+                return;
+              }
+
+              handleChange('image', file);
+            }}
           />
         </label>
         {typeof data.image === 'object' && (

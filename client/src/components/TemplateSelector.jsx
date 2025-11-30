@@ -1,5 +1,5 @@
 import { Check, Layout } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const TemplateSelector = ({ selectedTemplate, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,8 +28,19 @@ const TemplateSelector = ({ selectedTemplate, onChange }) => {
       preview: 'Minimal design with a single image and clean typography',
     },
   ];
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isOpen && !event.target.closest('.template-selector-container')) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen]);
+
   return (
-    <div className='relative'>
+    <div className='relative template-selector-container'>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className='flex items-center gap-1 text-sm text-blue-600 bg-gradient-to-br from-blue-50 to-blue-100 ring-blue-300 hover:ring transition-all px-3 py-2 rounded-lg '
