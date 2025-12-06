@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const CallToAction = () => {
   return (
@@ -10,9 +11,9 @@ const CallToAction = () => {
         <p className='text-xl font-medium max-w-md text-slate-800'>
           Build a Professional Resume That Helps You Stand Out and Get Hired
         </p>
-        <a
-          href='/app'
-          className='flex items-center gap-2 rounded py-3 px-8 bg-green-600 hover:bg-green-700 transition text-white'
+        <Link
+         to='/app?state=register'
+          className='flex items-center gap-2 rounded py-3 px-8 bg-green-500 hover:bg-green-700 active:scale-95 transition-all text-white'
         >
           <span>Get Started</span>
           <svg
@@ -30,7 +31,7 @@ const CallToAction = () => {
             <path d='M5 12h14' />
             <path d='m12 5 7 7-7 7' />
           </svg>
-        </a>
+        </Link>
       </div>
     </div>
   );
