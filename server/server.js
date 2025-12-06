@@ -30,13 +30,7 @@ const PORT = process.env.PORT || 3000;
 await connectDB();
 
 app.use(express.json());
-const corsOptions = {
-  origin: ['https://resume-builder-2icz.onrender.com', 'http://localhost:5173'],
-  credentials: true,
-  optionsSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.get('/', (req, res) => res.send('Server is live...'));
 app.use('/api/users', userRouter);
